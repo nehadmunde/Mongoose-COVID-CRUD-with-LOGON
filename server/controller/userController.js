@@ -48,9 +48,9 @@ static userLogin=async (req,res)=>{
                 const user=await userModel.findOne({email:email})
                 console.log(user)
                 if(user!=null){
-                    console.log(password,user.password)
+                    // console.log(password,user.password)
                     const isMatch=await bcrypt.compare(password,user.password)
-                    console.log("isMatch",isMatch)
+                    //console.log("isMatch",isMatch)
                     if(user.email === email && isMatch){
                         const loginToken=jwt.sign({userID:user._id},"jhkhggcghh",{expiresIn:"5d"})
                         res.send({"status":"sucess","message":"Login sucessfull.","token":loginToken})
@@ -96,7 +96,6 @@ static updateUser=async(req,res)=>{
     }catch(err){
      res.send({"status":"failed","message":"Unable to Update.",err});
     }
-
 }
 
 static deleteUser=async(req,res)=>{
@@ -106,8 +105,22 @@ static deleteUser=async(req,res)=>{
     }catch(err){
      res.send({"status":"failed","message":"Unable to Delete.",err});
     }
-
 }
+
+static searchUser=async(req,res)=>{
+    //  console.log(req.params.key);
+    try{
+        let newData= await userModel.find({
+            "$or":[
+                 {name:{$regex:req.params.key}},
+                 {email:{$regex:req.params.key}},
+            ]
+        });
+         res.send(newData)
+    }catch(err){
+        console.log(err);
+    }
+   }
 }
 
 module.exports=userControll;

@@ -1,6 +1,6 @@
 const res=require('express/lib/response');
 const patientModel=require('../model/patientModel');
-const JWT_SECURITY_KEY=process.env.JWT_SECURITY_KEY || "jhkhggcghh"
+
 
 class patientController{
 
@@ -81,20 +81,22 @@ class patientController{
 
     //search data
    static searchPatient=async(req,res)=>{
-    console.log(req.params.id);
+    //  console.log(req.params.key);
     try{
-        let regex=new regularExp(req.params.name,'i');
-        
-        let newData= await patientModel.find({_id:req.params.id});
-        console.log(newData);
-        // res.send(newData)
-        res.send("Data deleted")
-        
-
+        let newData= await patientModel.find({
+            "$or":[
+                 {name:{$regex:req.params.key}},
+                //  {age:Number({$regex:req.params.key})},
+                 {adharCard:{$regex:req.params.key}},
+                 {dose:{$regex:req.params.key}},
+            ]
+        });
+         res.send(newData)
     }catch(err){
         console.log(err);
     }
-}
+   }
+
 }
 
 module.exports=patientController;

@@ -19,9 +19,9 @@ router.put('/edit/:id',patientController.updatePatient);
 router.delete('/delete/:id',patientController.deletePatient);
 // in thunder : http://localhost:9001/covid_paitient/delete/62a8d5b34cefd4a5bb187d81 ==> delete
 
-// router.delete('/search/:name',patientController.deletePatient);
+ router.get('/search/:key',patientController.searchPatient);
 
-// in thunder : http://localhost:9001/covid_paitient/search/:Neha  ==> delete
+// in thunder : http://localhost:9001/covid_patient/search/u  ==> get
 
 // =========>  rotes for user
 
@@ -42,5 +42,9 @@ router.put('/userEdit/:id',userController.updateUser);
 
 router.delete('/userDelete/:id',userController.deleteUser);
 //in thunder : http://localhost:9001/covid_patient/userDelete/:id  ==> delete
+
+router.get('/userSearch/:key',userController.searchUser);
+
+// in thunder : http://localhost:9001/covid_patient/userSearch/u  ==> get
 
 module.exports=router;
